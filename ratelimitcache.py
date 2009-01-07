@@ -13,7 +13,7 @@ class ratelimit(object):
     expire_after = (minutes + 1) * 60
     
     def __init__(self, **options):
-        for key, value in options:
+        for key, value in options.items():
             setattr(self, key, value)
     
     def __call__(self, fn):
