@@ -36,6 +36,19 @@ Protecting a login form, i.e rate limit on IP address and attempted username:
         # ...
         return HttpResponse('...')
 
+You can also use it directly in urls.py. Here's how you would use it with 
+the login() view function provided by Django:
+    
+    from ratelimitcache import ratelimit_post
+    from django.contrib.auth.views import login
+    
+    urlpatterns = patterns('',
+        #...
+        (r'^login/$', ratelimit_post(
+            minutes = 3, requests = 10, key_field = 'username'
+        )(login)),
+    )
+
 Custom behaviour, e.g. logging when the rate limit condition fails:
     
     from ratelimitcache import ratelimit
