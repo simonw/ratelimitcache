@@ -6,8 +6,8 @@ import functools
 class ratelimit(object):
     "Instances of this class can be used as decorators"
     # This class is designed to be sub-classed
-    minutes = 1 # The time period
-    requests = 10 # Number of allowed requests in that time period
+    minutes = 2 # The time period
+    requests = 20 # Number of allowed requests in that time period
     
     prefix = 'rl-' # Prefix for memcache key
     expire_after = (minutes + 1) * 60
