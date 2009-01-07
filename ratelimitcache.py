@@ -80,7 +80,7 @@ class ratelimit(object):
         return HttpResponseForbidden('Rate limit exceeded')
 
 
-def ratelimit_post(ratelimit):
+class ratelimit_post(ratelimit):
     "Rate limit POSTs - can be used to protect a login form"
     key_field = None # If provided, this POST var will affect the rate limit
     
@@ -89,7 +89,7 @@ def ratelimit_post(ratelimit):
     
     def key_extra(self, request):
         # IP address and key_field (if it is set)
-        extra = super(ratelimit_post).key_extra(request)
+        extra = super(ratelimit_post, self).key_extra(request)
         if self.key_field:
             extra += '-' + request.POST.get(self.key_field, '')
         return extra
