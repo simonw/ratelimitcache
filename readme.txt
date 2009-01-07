@@ -7,6 +7,15 @@ persistent data store.
 
 Installation: Place the ratelimitcache.py on your Python path.
 
+Demo:
+    cd demo/
+    ./manage.py runserver 8008
+    
+    Now browse to:
+        http://localhost:8008/
+        http://localhost:8008/debug/
+        http://localhost:8008/login/
+
 Basic usage (max 20 requests every 3 minutes):
 
     from ratelimitcache import ratelimit
