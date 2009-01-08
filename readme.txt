@@ -7,7 +7,15 @@ persistent data store.
 
 More information: http://simonwillison.net/2009/Jan/7/ratelimitcache/
 
-Installation: Place the ratelimitcache.py on your Python path.
+Installation:
+    
+    Place the ratelimitcache.py on your Python path.
+    
+    Configure your CACHE_BACKEND setting. For best results, use the memcached 
+    backend - the other backends do not provide an atomic counter increment 
+    and so may suffer from less effective limiting due to race conditions.
+    
+    Cache documentation: http://docs.djangoproject.com/en/dev/topics/cache/
 
 Demo:
     cd demo/
