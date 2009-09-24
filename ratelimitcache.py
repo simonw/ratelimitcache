@@ -10,7 +10,6 @@ class ratelimit(object):
     requests = 20 # Number of allowed requests in that time period
     
     prefix = 'rl-' # Prefix for memcache key
-    expire_after = (minutes + 1) * 60
     
     def __init__(self, **options):
         for key, value in options.items():
@@ -44,10 +43,10 @@ class ratelimit(object):
         # memcache is only backend that can increment atomically
         try:
             # add first, to ensure the key exists
-            cache._cache.add(key, '0', time=self.expire_after)
+            cache._cache.add(key, '0', time=self.expire_after())
             cache._cache.incr(key)
         except AttributeError:
-            cache.set(key, cache.get(key, 0) + 1, self.expire_after)
+            cache.set(key, cache.get(key, 0) + 1, self.expire_after())
     
     def should_ratelimit(self, request):
         return True
@@ -80,7 +79,10 @@ class ratelimit(object):
     def disallowed(self, request):
         "Over-ride this method if you want to log incidents"
         return HttpResponseForbidden('Rate limit exceeded')
-
+    
+    def expire_after(self):
+        "Used for setting the memcached cache expiry"
+        return (self.minutes + 1) * 60
 
 class ratelimit_post(ratelimit):
     "Rate limit POSTs - can be used to protect a login form"
@@ -97,5 +99,3 @@ class ratelimit_post(ratelimit):
             extra += '-' + value
         return extra
 
-        
-    
