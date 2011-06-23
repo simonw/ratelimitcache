@@ -43,7 +43,7 @@ class ratelimit(object):
         # memcache is only backend that can increment atomically
         try:
             # add first, to ensure the key exists
-            cache._cache.add(key, '0', time=self.expire_after())
+            cache._cache.add(key, 0, time=self.expire_after())
             cache._cache.incr(key)
         except AttributeError:
             cache.set(key, cache.get(key, 0) + 1, self.expire_after())
